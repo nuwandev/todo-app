@@ -26,6 +26,7 @@ const handleAddTask = () => {
       completed: false,
     });
     showingStatus = "all";
+    updateTabStyles(allTabBtn!, [activeTabBtn!, completedTabBtn!]);
     updateTaskList();
     updateLocalStorage();
     (taskInput as HTMLInputElement).value = "";
