@@ -1,0 +1,15 @@
+{
+  // Tell VS Code to not traverse node_modules for TypeScript/JS validation
+  "search.exclude": {
+    "**/node_modules": true,
+    "**/dist": true
+  },
+  "files.watcherExclude": {
+    "**/node_modules/**": true,
+    "**/dist/**": true
+  },
+  // Disable built-in TypeScript validation if using ESLint/tsc
+  "typescript.validate.enable": false,
+  // Reduce noise from JavaScript validation on dependencies
+  "javascript.validate.enable": false
+}
