@@ -21,6 +21,7 @@ const handleAddTask = () => {
     tasksList.unshift({ id: generateRandomId(), task });
     console.log(tasksList);
     updateTaskList();
+    updateLocalStorage();
     (taskInput as HTMLInputElement).value = "";
   }
 };
@@ -30,6 +31,7 @@ const handleDeleteTask = (btn: HTMLElement) => {
   console.log("delete task", btn.dataset.taskId);
   tasksList = tasksList.filter((task) => task.id !== btn.dataset.taskId);
   updateTaskList();
+  updateLocalStorage();
 };
 
 const updateEventListeners = () => {
@@ -48,3 +50,18 @@ const updateTaskList = () => {
   document.getElementById("taskList")!.innerHTML = taskListBody;
   updateEventListeners();
 };
+
+function updateLocalStorage() {
+  localStorage.setItem("tasks", JSON.stringify(tasksList));
+}
+
+function loadFromLocalStorage() {
+  const storedTasks = localStorage.getItem("tasks");
+  if (storedTasks) {
+    const parsedTasks: TTask[] = JSON.parse(storedTasks);
+    tasksList.push(...parsedTasks);
+    updateTaskList();
+  }
+}
+
+loadFromLocalStorage();
