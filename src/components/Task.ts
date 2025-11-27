@@ -10,7 +10,7 @@ const TaskElement = (task: TTask) => {
     >
       <div class="flex items-center gap-2">
         <input type="checkbox" id="toggleTask" data-task-id="${task.id}" class="toggle-task" checked />
-        <span class="task-text text-gray-700 line-through">${task.task}</span>
+        <span class="task-text text-gray-700 line-through">${task.title}</span>
       </div>
       <div class="flex items-center gap-2">
         <button id="editTaskBtn" data-task-id="${task.id}" class="edit-task-btn text-blue-500 hover:text-blue-700 cursor-pointer" onclick="event.stopPropagation()">
@@ -30,7 +30,7 @@ const TaskElement = (task: TTask) => {
     >
       <div class="flex items-center gap-2">
         <input type="checkbox" id="toggleTask" data-task-id="${task.id}" class="toggle-task" />
-        <span class="task-text text-gray-700">${task.task}</span>
+        <span class="task-text text-gray-700">${task.title}</span>
       </div>
       <div class="flex items-center gap-2">
         <button id="editTaskBtn" data-task-id="${task.id}" class="edit-task-btn text-blue-500 hover:text-blue-700 cursor-pointer" onclick="event.stopPropagation()">

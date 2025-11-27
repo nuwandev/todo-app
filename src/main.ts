@@ -2,16 +2,16 @@ import "./style.css";
 import Task from "./components/Task";
 import type { TTask } from "./types";
 import { generateRandomId } from "./utils";
+import EditPanel from "./components/EditPanel";
+import HomePage from "./components/HomePage";
 
 let showingStatus: "all" | "active" | "completed" = "all";
 
-const initApp = async () => {
-  const response = await fetch("/src/components/app.html");
-  const appHtml = await response.text();
-  document.querySelector<HTMLDivElement>("#app")!.innerHTML = appHtml;
+const init = async () => {
+  document.querySelector("#app")!.innerHTML = HomePage();
 };
 
-await initApp();
+await init();
 
 let tasksList: TTask[] = [];
 
@@ -22,7 +22,7 @@ const handleAddTask = () => {
   if (task) {
     tasksList.unshift({
       id: generateRandomId(),
-      task: task,
+      title: task,
       completed: false,
     });
     showingStatus = "all";
@@ -50,6 +50,63 @@ const handleClickTask = (taskId: string) => {
   updateLocalStorage();
 };
 
+const openEditModal = (taskId: string) => {
+  const task = tasksList.find((task) => task.id === taskId);
+  if (task) {
+    const modalHtml = EditPanel();
+    const modalContainer = document.createElement("div");
+    modalContainer.innerHTML = modalHtml;
+    document.body.appendChild(modalContainer);
+
+    const closeModalBtn = document.getElementById("closeModalBtn");
+    closeModalBtn!.addEventListener("click", () => {
+      closeEditModal("taskModal");
+    });
+
+    const cancelEditBtn = document.getElementById("cancelEditBtn");
+    cancelEditBtn!.addEventListener("click", () => {
+      closeEditModal("taskModal");
+    });
+
+    const taskEditForm = document.getElementById("taskEditForm");
+    const editTaskTitle = document.getElementById(
+      "editTaskTitle"
+    ) as HTMLInputElement;
+    const editTaskNotes = document.getElementById(
+      "editTaskNotes"
+    ) as HTMLTextAreaElement;
+    const editTaskDueDate = document.getElementById(
+      "editTaskDueDate"
+    ) as HTMLInputElement;
+
+    editTaskTitle.value = task.title;
+    editTaskNotes.value = task.notes || "";
+    editTaskDueDate.value = task.dueDate || "";
+
+    taskEditForm!.addEventListener("submit", (e) => {
+      e.preventDefault();
+      task.title = editTaskTitle.value;
+      task.notes = editTaskNotes.value;
+      task.dueDate = editTaskDueDate.value;
+
+      updateTaskList();
+      updateLocalStorage();
+      closeEditModal("taskModal");
+    });
+  }
+};
+
+const closeEditModal = (id: string) => {
+  const modal = document.getElementById(id);
+  if (modal) {
+    modal.remove();
+  }
+};
+
+const handleEditTask = (taskId: string) => {
+  openEditModal(taskId);
+};
+
 const updateEventListeners = () => {
   document.querySelectorAll("#deleteTaskBtn").forEach((btn) => {
     btn.addEventListener("click", () => {
@@ -60,6 +117,12 @@ const updateEventListeners = () => {
   document.querySelectorAll("#taskItem").forEach((taskItem) => {
     taskItem.addEventListener("click", () => {
       handleClickTask((taskItem as HTMLElement).dataset.taskId!);
+    });
+  });
+
+  document.querySelectorAll("#editTaskBtn").forEach((btn) => {
+    btn.addEventListener("click", () => {
+      handleEditTask((btn as HTMLElement).dataset.taskId!);
     });
   });
 };
