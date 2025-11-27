@@ -1,0 +1,48 @@
+const HomePage = () => {
+  return `<div class="flex h-screen w-screen items-center justify-center bg-gray-100">
+  <div
+    id="todoContainer"
+    class="bg-white shadow-lg rounded-lg p-6 w-full max-w-md transition-all duration-300 overflow-hidden h-[500px]"
+  >
+    <h1 class="text-2xl font-bold text-gray-800 mb-4">Todo App</h1>
+    <div class="flex items-center mb-4">
+      <input
+        id="taskInput"
+        type="text"
+        placeholder="Add a new task"
+        class="flex-1 border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+      />
+      <button
+        id="addBtn"
+        class="ml-2 bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600 cursor-pointer"
+      >
+        Add
+      </button>
+    </div>
+    <div class="flex justify-center mb-4 gap-3">
+      <button
+        id="allTab"
+        class="px-4 py-2 border-b-2 cursor-pointer border-blue-500 text-blue-500 font-semibold focus:outline-none"
+      >
+        All
+      </button>
+      <button
+        id="activeTab"
+        class="px-4 py-2 border-b-2 cursor-pointer border-transparent text-gray-500 hover:text-blue-500 hover:border-blue-500 focus:outline-none"
+      >
+        Active
+      </button>
+      <button
+        id="completedTab"
+        class="px-4 py-2 border-b-2 cursor-pointer border-transparent text-gray-500 hover:text-blue-500 hover:border-blue-500 focus:outline-none"
+      >
+        Completed
+      </button>
+    </div>
+    <ul class="space-y-2 overflow-y-auto max-h-[300px]" id="taskList"></ul>
+  </div>
+</div>
+`;
+};
+
+export default HomePage;
